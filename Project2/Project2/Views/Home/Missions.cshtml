@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Missions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Project2.Models.Missions
+
+<h2>Missions</h2>
+
+@using (Html.BeginForm("MissionFaqs", "Home", FormMethod.Get))
+{
+    <fieldset>
+        <div class="form-group">
+            @Html.LabelFor(model => model.missionID, htmlAttributes: new { @class = "conrol-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.missionID, new SelectList(ViewBag.something, "missionID", "missionName"))
+                @Html.ValidationMessageFor(model => model.missionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <p>
+            <input type="submit" value="Submit" />
+        </p>
+    </fieldset>
+}

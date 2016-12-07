@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using PlayBall.Models;
-using PlayBall.DAL;
+using Project2.Models;
+using Project2.DAL;
 using System.Data.Entity;
 
 namespace Project2
@@ -15,7 +15,7 @@ namespace Project2
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<403Project2Context>(null);
+            Database.SetInitializer<Project2Context>(null);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

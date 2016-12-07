@@ -1,17 +1,36 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+
+
+
+
+
+
+@using (Html.BeginForm())
+{
+    <h2 class="form-signin-heading">Contact Us</h2>
+
+    <label for="inputEmail" class="sr-only fm-input">Name</label>
+    @Html.TextBox("Name", "", new { type = "text", id = "inputName", @class = "form-control fm-input", placeholder = "Your Name", required = true, autofocus = true })
+    <label for="inputEmail" class="sr-only fm-input">Email</label>
+    @Html.TextBox("Email address", "", new { type = "email", id = "inputEmail", @class = "form-control fm-input", placeholder = "Email address", required = true })
+    <label for="inputEmail" class="sr-only fm-input">Email</label>
+    @Html.DropDownList("QuestionCategory", new List<SelectListItem>
+{
+    new SelectListItem{ Text="Select a Category", Value="0"},
+    new SelectListItem{ Text="Update Info", Value = "1"},
+    new SelectListItem{ Text="Support Ticket", Value ="2"},
+    new SelectListItem{ Text="Ask Us", Value = "3"},
+    new SelectListItem{ Text="Request a Mission", Value = "4"}
+})
+    @Html.TextArea("Message", "", new { type = "text", id = "inputMessage", @class = "form-control fm-input", placeholder = "Your message here", required = true })
+    <button class="btn btn-lg btn-primary btn-block btn-sizing" type="submit">Submit</button>
+}
 
 <address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
+    744 Cougar Dr.<br />
+    Provo, UT 84602<br />
     <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+    801.555.5555
 </address>

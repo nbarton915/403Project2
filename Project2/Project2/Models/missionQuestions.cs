@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Project2.Models
 {
-    [Table(missionQuestions)]
+    [Table("missionQuestions")]
     public class missionQuestions
     {
         [Key]
