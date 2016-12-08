@@ -5,6 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Project2.Models;
+using System.Web.Security;
+using System.Net;
+
 
 namespace Project2.Controllers
 {
@@ -48,15 +52,84 @@ namespace Project2.Controllers
         #region MissionFaqs
         public ViewResult MissionFaqs(string missionID)
         {
-            ViewBag.SelectedMission = db.Database.SqlQuery(
-                "SELECT Missions.missionName " +
-                "FROM Missions " +
-                "WHERE Missions.missionID = " +
-                missionID
-                ).ToList();
+            //IEnumerable<MissionSpecQuestions> MissionSpecQuestions = db.Database.SqlQuery
+
+
             
             return View("MissionFaqs");
         }
         #endregion
+
+        #region Login
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(FormCollection form, bool rememberMe = false)
+        {
+            String email = form["Email address"].ToString();
+            string password = form["Password"].ToString();
+
+            var queryResult = db.Database.SqlQuery<Users>(
+                "SELECT * " +
+                "FROM Users " +
+                "WHERE userEmail = '" + email + "' AND password = '" + password + "';"
+                );
+
+            if (queryResult.Count() > 0)
+            {
+                FormsAuthentication.SetAuthCookie(email, rememberMe);
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+        #endregion
+
+        #region Logoff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+        #endregion
+
+        #region Register
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register([Bind(Include = "userEmail, password, firstName, lastName")] Users users)
+        {
+            if (ModelState.IsValid)
+            {
+                string email = users.userEmail;
+                bool rememberMe = false;
+
+                db.User.Add(users);
+                db.SaveChanges();
+
+                FormsAuthentication.SetAuthCookie(email, rememberMe);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(users);
+        }
+        #endregion
+
     }
 }
